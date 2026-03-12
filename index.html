@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Caramelito - Productos Personalizados</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&family=Montserrat:wght@600&display=swap" rel="stylesheet">
+  <style>
+    /* --- Tus estilos originales aquí --- */
+    :root {
+      --color-primario: #f38c81;
+      --color-secundario:#e35336;
+      --color-acento: #f6bdb8;
+      --gris-claro: #fcedec;
+      --gris:#fcedec;
+      --shadow: 0 4px 24px rgba(0,0,0,0.08);
+      --radius: 18px
+    }
+    body {
+      font-family: 'Quicksand', 'Montserrat', Arial, sans-serif;
+      background: linear-gradient(120deg, var(--color-secundario) 0%, var(--color-acento) 100%);
+      color: #222;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    nav {
+      width: 100%;
+      background: #fff;
+      box-shadow: var(--shadow);
+      padding: 0.7rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-logo {
+      display: flex; align-items: center;
+      cursor: pointer;
+    }
+    .nav-logo img {
+      width: 40px; height: 40px; margin-right: 10px;
+      border-radius: 50%; border: 2px solid var(--color-primario);
+      object-fit: cover;
+      background: #fff;
+    }
+    .nav-logo span {
+      font-family: 'Montserrat', Arial, sans-serif;
+      font-weight: 600; font-size: 1.3rem; color: var(--color-primario);
+      letter-spacing: 1px;
+    }
+    .nav-links a {
+      color: var(--color-primario); text-decoration: none;
+      font-weight: 700; font-size: 1rem; margin: 0 14px; padding: 4px 8px;
+      border-radius: 8px; transition: background 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active {
+      background: var(--color-secundario);
+      color: #222;
+    }
+    .pantalla-login {
+      position: fixed; inset: 0; z-index: 9999;
+      background: rgba(255, 111, 145, 0.93);
+      display: flex; align-items: center; justify-content: center;
+      transition: opacity 0.3s;
+    }
+    .pantalla-login.oculto { opacity: 0; pointer-events: none; }
+    .form-login {
+      background: #fff;
+      padding: 2rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      width: 310px; text-align: center;
+      animation: fadeIn 0.4s;
+    }
+    @keyframes fadeIn { from{opacity:0;transform:scale(.98);} to{opacity:1;transform:scale(1);} }
+    .form-login h2 { color: var(--color-primario); margin-bottom: 1rem; }
+    .form-login input {
+      width: 100%; padding: 0.7rem; margin: 0.65rem 0;
+      border: 1.5px solid var(--gris); border-radius: 14px;
+      font-size: 1rem; background: var(--gris-claro);
+      transition: border 0.2s;
+    }
+    .form-login input:focus { border-color: var(--color-primario); outline: none; }
+    .form-login button {
+      width: 100%; background: var(--color-primario); color: #fff;
+      border: none; padding: 0.7rem; border-radius: 14px;
+      font-size: 1rem; font-weight: 700; margin-top: 0.2rem;
+      cursor: pointer; box-shadow: var(--shadow); transition: background 0.2s;
+    }
+    .form-login button:hover { background: #E35336; }
+    .form-login p span {
+      color: var(--color-primario); font-weight: bold; cursor: pointer;
+      text-decoration: underline;
+    }
+    .contenedor-app { display: flex; flex: 1; min-height: 0; }
+    aside {
+      width: 230px; background: var(--color-acento); border-right: 2px solid var(--color-secundario);
+      padding: 28px 18px; position: fixed; height: calc(100vh - 70px); top: 70px;
+      box-shadow: var(--shadow); z-index: 2; overflow-y: auto;
+      display: flex; flex-direction: column;
+    }
+    aside h2 { color: var(--color-primario); font-size: 1.1rem; margin-bottom: 18px; }
+    aside ul { list-style: none; padding: 0; }
+    aside li {
+      padding: 11px 0; cursor: pointer; color: #444; font-weight: 500;
+      border-radius: 8px; transition: background 0.2s, color 0.2s;
+      margin-bottom: 4px;
+      font-size: 1.05em;
+      display: flex; align-items: center; 
+    }
+    aside li:hover, aside li:focus {
+      background: var(--color-primario); color: #fff; font-weight: 700;
+    }
+    main {
+      margin-left: 250px; padding: 28px;
+      width: calc(100% - 250px);
+    }
+    header {
+      background: var(--color-primario);
+      color: #fff; padding: 28px 16px;
+      text-align: center; border-radius: 16px;
+      margin-bottom: 22px; box-shadow: var(--shadow);
+      letter-spacing: .5px;
+      display: flex; flex-direction: column; align-items: center;
+      gap: 6px;
+    }
+    header img.logo-main {
+      width: 60px; height: 60px; border-radius: 50%; margin-bottom: 8px;
+      border: 3px solid #fff;
+      box-shadow: 0 2px 12px #ff6f9166;
+      background: #fff;
+      object-fit: cover;
+    }
+    .eslogan {
+      margin-top: 8px;
+      font-size: 1.18em;
+      font-family: 'Montserrat', Arial, sans-serif;
+      color: #fff7ae;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      background: rgba(255, 111, 145, 0.68);
+      padding: 8px 20px;
+      border-radius: 16px;
+      display: inline-block;
+      box-shadow: 0 2px 10px #ff6f9130;
+      animation: fadeIn 1s;
+    }
+    .acciones-derecha {
+      background: var(--color-secundario); padding: 16px; border-radius: 12px;
+      margin-bottom: 20px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center;
+      box-shadow: var(--shadow);
+    }
+    .acciones-derecha button {
+      background: var(--color-primario); color: #fff; border: none;
+      padding: 10px 16px; border-radius: 10px; font-weight: 700;
+      font-size: 1rem; cursor: pointer; box-shadow: var(--shadow);
+      transition: background 0.2s;
+    }
+    .acciones-derecha button:hover { background: #f4436b; }
+    section {
+      padding: 22px; background: #fff; border-radius: 17px;
+      box-shadow: var(--shadow); margin-bottom: 22px;
+      transition: box-shadow 0.2s;
+      animation: fadeIn 0.5s;
+    }
+    .hidden { display: none !important; }
+    .productos-destacados {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 18px;
+    }
+    .producto {
+      border: 1.5px solid var(--color-secundario);
+      background: var(--gris-claro);
+      border-radius: 14px; padding: 15px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      transition: box-shadow 0.2s, transform 0.2s;
+      position: relative;
+      overflow: hidden;
+      animation: fadeIn 0.6s;
+    }
+    .producto:hover { box-shadow: 0 4px 30px #ff6f9130; transform: scale(1.03);}
+    .producto img {
+      width: 100%; max-width: 120px; border-radius: 10px;
+      box-shadow: 0 1px 12px #ff6f9133;
+      margin-bottom: 8px; transition: transform 0.2s;
+      object-fit: cover;
+    }
+    .producto img:hover { transform: scale(1.10);}
+    .producto .precio {
+      font-size: 1.15em;
+      font-weight: 700;
+      color: var(--color-primario);
+    }
+    .boton-terracota {
+      background: linear-gradient(135deg, #e07a5f, #f2cc8f);
+      color: #fffaf0;
+      font-family: 'Quicksand', sans-serif;
+      font-weight: bold;
+      font-size: 16px;
+      border: none;
+      border-radius: 14px;
+      padding: 12px 26px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(224, 122, 95, 0.4);
+    }
+    .boton-terracota:hover {
+      background: linear-gradient(135deg, #f2cc8f, #e07a5f);
+      transform: scale(1.07);
+      box-shadow: 0 6px 16px rgba(224, 122, 95, 0.6);
+    }
+    .boton-terracota:active {
+      transform: scale(0.95);
+    }
+    .formulario input, .formulario textarea, .formulario select {
+      width: 100%; padding: 0.7rem; margin: 0.6rem 0;
+      border: 1.5px solid var(--gris); border-radius: 12px;
+      background: var(--gris-claro); font-size: 1rem;
+    }
+    .formulario textarea { min-height: 64px; }
+    .formulario button {
+      background: var(--color-primario); color: #fff; border: none;
+      padding: 0.7rem; border-radius: 12px; font-weight: 700;
+      cursor: pointer; box-shadow: var(--shadow); transition: background 0.2s;
+    }
+    .formulario button:hover { background: #f4436b; }
+    footer {
+      background: #fff;
+      color: #333;
+      margin-top: auto;
+      padding: 30px 12px 20px 12px;
+      border-top: 2px solid var(--color-secundario);
+      box-shadow: 0 -2px 18px #ff6f9133;
+      display: flex; flex-direction: column; align-items: center;
+      font-size: 1.06em;
+    }
+    .footer-social {
+      margin-bottom: 10px;
+      display: flex; gap: 16px;
+    }
+    .footer-social a {
+      color: var(--color-primario); text-decoration: none;
+      font-size: 1.6em; transition: color 0.2s;
+    }
+    .footer-social a:hover { color: #f4436b; }
+    .footer-links {
+      margin-bottom: 10px;
+      display: flex; gap: 18px;
+      flex-wrap: wrap;
+      font-size: .95em;
+    }
+    .footer-links a {
+      color: #333; text-decoration: none; transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--color-primario);}
+    .footer-copy { font-size: .92em; color: #888;}
+    .footer-directorio {
+      background: var(--color-primario);
+      color: #fff;
+      font-weight: bold;
+      padding: 13px 24px;
+      border-radius: 15px;
+      margin: 12px 0 0 0;
+      font-size: 1.12em;
+      text-align: center;
+      letter-spacing: 0.6px;
+      box-shadow: 0 1px 10px #ff6f9144;
+      display: inline-block;
+      line-height: 1.7;
+    }
+    .about-container {
+      display: flex; gap: 28px; flex-wrap: wrap; align-items: flex-start;
+    }
+    .about-img {
+      width: 140px; border-radius: 16px; box-shadow: var(--shadow); margin-bottom: 16px;
+    }
+    .about-text {
+      flex: 1 1 240px;
+      font-size: 1.06em;
+      color: #333;
+    }
+    .confianza-lista {
+      display: flex; gap: 30px; margin-top: 10px; flex-wrap: wrap;
+      align-items: center;
+    }
+    .confianza-item {
+      display: flex; align-items: center; gap: 9px;
+      font-size: 1em;
+      background: var(--gris-claro);
+      padding: 7px 12px;
+      border-radius: 9px;
+      box-shadow: var(--shadow);
+    }
+    .confianza-item img {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: #fff;
+      border: 1px solid var(--color-primario);
+    }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(10px);} to{opacity:1;transform:translateY(0);} }
+    @media (max-width: 900px) {
+      aside { position: static; width: 100%; height: auto; border-right: none; box-shadow: none; top:0;}
+      main { margin-left: 0; width: 100%; padding: 12px;}
+      .contenedor-app { flex-direction: column;}
+      header { margin-bottom: 12px; }
+      nav { flex-direction: column; gap: 10px; }
+    }
+    @media (max-width: 600px) {
+      .productos-destacados { grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); }
+      .about-container { flex-direction: column; gap: 12px;}
+    }
+    .galeria-productos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+      margin-top: 12px;
+    }
+    .galeria-item {
+      background: var(--gris-claro);
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+      padding: 10px;
+      text-align: center;
+      animation: fadeIn 0.5s;
+    }
+    .galeria-item img {
+      width: 100%; max-width: 120px; border-radius: 9px; object-fit: cover;
+      box-shadow: 0 1px 12px #ff6f9133;
+    }
+    .galeria-item .nombre {
+      font-size: 1em; font-weight: 600; color: var(--color-primario); margin-top: 7px;
+    }
+    /* Personaliza overlay */
+    .personaliza-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(243, 140, 129, 0.92);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s;
+      z-index: 2;
+    }
+    .producto:hover .personaliza-overlay,
+    .producto:focus-within .personaliza-overlay {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .btn-personalizar {
+      padding: 12px 24px;
+      background: #fff;
+      color: #e35336;
+      border: none;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 1.1em;
+      cursor: pointer;
+      box-shadow: 0 2px 10px #e3533640;
+      transition: background 0.2s, color 0.2s, transform 0.2s;
+    }
+    .btn-personalizar:hover, .btn-personalizar:focus {
+      background: #e35336;
+      color: #fff;
+      transform: scale(1.08);
+    }
+    @media (hover: none) and (pointer: coarse) {
+      .personaliza-overlay {
+        opacity: 0 !important;
+        pointer-events: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav>
+    <div class="nav-logo" onclick="mostrar('productosPrincipales')">
+      <img src="logo.jpg" alt="Logo Caramelito" id="logoNav">
+      <span>Caramelito</span>
+    </div>    
+    <div class="nav-links">
+      <a href="#" onclick="mostrar('productosPrincipales');return false;" class="active">Inicio</a>
+      <a href="#" onclick="mostrar('personaliza tu cuenta');return false;" >personaliza tu pedido</a>
+      <a href="#" onclick="mostrar('about');return false;">Sobre nosotros</a>
+      <a href="#" onclick="mostrar('personalizarCuenta');return false;">Cuenta</a>
+      <a href="#" onclick="mostrar('formasPago');return false;">Pagos</a>
+    </div>
+  </nav>
+  <!-- Pantalla Login -->
+  <div class="pantalla-login" id="pantallaLogin" aria-modal="true" role="dialog">
+    <form class="form-login" id="formLogin" autocomplete="on" novalidate>
+      <h2 id="tituloLogin">Iniciar Sesión</h2>
+      <label for="loginEmail" class="visually-hidden">Correo electrónico</label>
+      <input type="email" id="loginEmail" placeholder="Correo electrónico" required autofocus>
+      <label for="loginPass" class="visually-hidden">Contraseña</label>
+      <input type="password" id="loginPass" placeholder="Contraseña" required>
+      <button type="submit" id="botonLogin">Entrar</button>
+      <p id="mensajeLogin" aria-live="polite" style="color: red;"></p>
+      <p>
+        ¿No tienes cuenta? <span tabindex="0" role="button" onclick="cambiarModo(true)">Regístrate</span><br>
+        ¿Ya tienes cuenta? <span tabindex="0" role="button" onclick="cambiarModo(false)">Iniciar sesión</span>
+      </p>
+    </form>
+  </div>
+  <div class="contenedor-app">
+    <!-- Menú lateral -->
+    <aside>
+      <h2>AJUSTES</h2>
+      <ul>
+        <li onclick="mostrar('buscador de productos')">🔍 buscador</li>
+        <li onclick="mostrar('productosPrincipales')">🏠 Página principal</li>
+        <li onclick="mostrar('about')">👥 Sobre nosotros</li>
+        <li onclick="mostrar('personalizarCuenta')">👤 Personalizar cuenta</li>
+        <li onclick="mostrar('carrito')">🛒 Ver Carrito</li>
+        <li onclick="mostrar('pedidos')">📦 Mis Pedidos</li>
+        <li onclick="mostrar('formasPago')">💳 Formas de Pago</li>
+        <li onclick="mostrar('formularioPedido')">📝 Personaliza tu envio</li>
+        <li onclick="mostrar('galeria')">🖼 Galería de productos</li>
+        <li onclick="mostrar('personaliza tu pedido')">🖌️ Personaliza tu pedido</li>
+      </ul>
+    </aside>
+    <main>
+      <!-- Hero principal -->
+      <header>
+        <img src="logo.jpg" alt="Logo Caramelito" class="logo-main" id="logoMain">
+        <h1>Caramelito 🎀</h1>
+        <span class="eslogan">Deja tu huella en todo lo que haces 🍭</span>
+        <p>Productos personalizados con amor y calidad</p>
+      </header>
+      <div class="acciones-derecha">
+        <button onclick="mostrar('formularioPedido')">📝 Personaliza tu pedido</button>
+        <button onclick="mostrar('galeria')">🖼 Galería</button>
+        <button onclick="mostrar('personaliza tu pedido')">🖌️ Personaliza tu pedido</button>
+      </div>
+      <!-- Buscador de productos -->
+   <section id="buscador de productos"><meta charset="UTF-8">
+    <title>Buscador de Productos</title>
+    <style> 
+      body {
+        font-family: 'Quicksand', sans-serif;
+        margin: 20px;
+        background-color: #f4f4f4;
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      #buscador {
+        display: block;
+        margin: 0 auto 30px auto;
+        padding: 12px;
+        width: 300px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+      }
+
+      .contenedor-productos {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+      }
+
+      .producto {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        width: 200px;
+        padding: 15px;
+        text-align: center;
+        transition: transform 0.3s ease;
+      }
+
+      .producto:hover {
+        transform: scale(1.05);
+      }
+
+      .producto img {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+      }
+
+      .nombre {
+        font-weight: bold;
+        margin-top: 10px;
+      }
+
+      .precio {
+        color: #e07a5f;
+        font-weight: bold;
+        margin-top: 5px;
+      }
+
+      .no-resultados {
+        text-align: center;
+        font-style: italic;
+        color: #888;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+      <h1>🛍️ Buscador de Productos</h1>
+    <input type="text" id="buscador" placeholder="Buscar por nombre...">
+
+    <div class="contenedor-productos" id="contenedor-productos">
+      <div class="producto" data-nombre="Popsocket">
+        <img src="Popsocket.jpg" alt="Popsocket personalizado">
+              <h4>🌀 Popsocket</h4>
+              <div class="precio">$5.000</div>
+      </div>
+
+      <div class="producto" data-nombre="Camiseta">
+        <img src="Camiseta.jpg" alt="Camiseta personalizada">
+              <h4>👕 Camiseta</h4>
+              <div class="precio">$20.000 - $30.000</div>
+      </div>
+
+      <div class="producto" data-nombre=" Mug">
+      <img src="Mug Personalizados.jpg" alt="Mug personalizado">
+              <h4>☕ Mug</h4>
+              <div class="precio">$15.000</div>
+      </div>
+
+      <div class="producto" data-nombre="Mini Tote Bag">
+        <img src="MINI TOTE BAG.jpg" alt="Mini Tote Bag personalizada">
+              <h4>👜 Mini Tote Bag</h4>
+              <div class="precio">15×10 cm – $5.000<br>Mediana – $6.000<br>Grande – $8.000</div>
+              
+      </div>
+
+
+      <div class="producto" data-nombre="Mouse Pad">
+        <img src="mouse pad.jpg" alt="Mouse Pad personalizado">
+              <h4>🖱 Mouse Pad</h4>
+              <div class="precio">$10.000</div>
+      </div>
+    </div>
+
+    <p id="mensaje-vacio" class="no-resultados" style="display: none;">No se encontraron productos.</p>
+
+
+    <script>
+      const input = document.getElementById('buscador');
+      const productos = document.querySelectorAll('.producto');
+      const mensajeVacio = document.getElementById('mensaje-vacio');
+
+      input.addEventListener('input', function () {
+        const texto = this.value.toLowerCase();
+        let encontrados = 0;
+
+        productos.forEach(producto => {
+          const nombre = producto.dataset.nombre.toLowerCase();
+          if (nombre.includes(texto)) {
+            producto.style.display = '';
+            encontrados++;
+          } else {
+            producto.style.display = 'none';
+          }
+        });
+
+        mensajeVacio.style.display = encontrados === 0 ? 'block' : 'none';
+      });
+    </script>
+
+  </body>
+</section>
+      <!-- Productos principales -->
+      <section id="productosPrincipales">
+        <h2>🎁 Productos destacados</h2>
+        <div class="productos-destacados">
+          <!-- ... productos (sin los <style> internos) ... -->
+
+          <div class="producto">
+            <img src="Popsocket.jpg" alt="Popsocket personalizado">
+            <h4>🌀 Popsocket</h4>
+            <div class="precio">$5.000</div>
+            <button class="boton-terracota" data-nombre="Popsocket" data-precio="5000">🛒 Añadir al carrito</button>
+          </div>
+        
+           <div class="producto">
+            <img src="Camiseta.jpg" alt="Camiseta personalizada">
+            <h4>👕 Camiseta</h4>
+            <div class="precio">$20.000 - $30.000</div>
+            <label for="camiseta-talla" style="display:block;margin:6px 0 2px 0;">Talla:</label>
+            <select id="camiseta-talla" style="margin-bottom:7px;">
+              <option value="S">S</option>
+              <option value="M">M</option>
+              <option value="L">L</option>
+              <option value="XL">XL</option>
+            </select>
+            <button class="boton-terracota" data-nombre="Camiseta" data-precio="20000">🛒 Añadir al carrito</button>
+          </div>
+          <div class="producto">
+            <img src="Mug Personalizados.jpg" alt="Mug personalizado">
+            <h4>☕ Mug</h4>
+            <div class="precio">$15.000</div>
+            <button class="boton-terracota" data-nombre="Mug" data-precio="15000">🛒 Añadir al carrito</button>
+          </div>
+            <div class="producto">
+            <img src="MINI TOTE BAG.jpg" alt="Mini Tote Bag personalizada">
+            <h4>👜 Mini Tote Bag</h4>
+            <div class="precio">Pequeña – $5.000<br>Mediana – $6.000<br>Grande – $8.000</div>
+            <label for="tote-size" style="display:block;margin:6px 0 2px 0;">Tamaño:</label>
+            <select id="tote-size" style="margin-bottom:7px;">
+              <option value="Pequeña" data-precio="5000">Pequeña</option>
+              <option value="Mediana" data-precio="6000">Mediana</option>
+              <option value="Grande" data-precio="8000">Grande</option>
+            </select>
+            <button class="boton-terracota" data-nombre="Mini Tote Bag" data-precio="5000">🛒 Añadir al carrito</button>
+          </div>
+          <div class="producto">
+            <img src="mouse pad.jpg" alt="Mouse Pad personalizado">
+            <h4>🖱 Mouse Pad</h4>
+            <div class="precio">$10.000</div>
+            <button class="boton-terracota" data-nombre="Mouse Pad" data-precio="10000">🛒 Añadir al carrito</button>
+          </div>
+        </div>
+        <div class="confianza-lista" style="margin-top:25px;">
+          <div class="confianza-item">
+            <img src="nequi.png" alt="Pago Nequi">
+            <span>Pago seguro Nequi</span>
+          </div>
+          <div class="confianza-item">
+            <img src="bancolombia.png" alt="Pago Bancolombia">
+            <span>Bancolombia</span>
+          </div>
+          <div class="confianza-item">
+            <img src="mapa.jpg" alt="Envios">
+            <span>Envíos a todo el país</span>
+          </div>
+          <div class="confianza-item">
+            <img src="whatsapp.jpg" alt="Whatsapp">
+            <span>Atención por WhatsApp</span>
+          </div>
+        </div>
+      </section>
+      <!-- Sobre nosotros -->
+      <section id="about" class="hidden">
+        <h2>👥 Sobre nosotros</h2>
+        <div class="about-container">
+          <img src="logo.jpg" alt="Equipo Caramelito" class="about-img">
+          <div class="about-text">
+            <p>
+              <b>Caramelito</b> nació en 2023 con la misión de crear productos únicos y personalizados que llenen de alegría a nuestros clientes.
+              Somos un equipo joven, creativo y apasionado por el diseño, la calidad y la atención cercana.
+            </p>
+            <p>
+              <b>¿Qué nos diferencia?</b>
+              <ul>
+                <li>Materiales premium y detalles personalizados a tu gusto.</li>
+                <li>Atención rápida y directa por WhatsApp y redes sociales.</li>
+                <li>Envíos rápidos y seguros a todo Colombia.</li>
+                <li>Pagos con Nequi, Bancolombia, y más.</li>
+              </ul>
+              <b>¡Gracias por confiar en nosotros!</b>
+            </p>
+          </div>
+        </div>
+      </section>
+      <!-- Personalizar cuenta -->
+      <section id="personalizarCuenta" class="hidden">
+        <h2>👤 Personalizar cuenta</h2>
+        <div class="ajustes-cuenta-btns"></div>
+        <div class="cuentas-lista" id="cuentasLista"></div>
+        <form class="formulario" id="formCuenta" autocomplete="on">
+          <input type="text" id="cuentaNombre" placeholder="Tu nombre" required>
+          <input type="email" id="cuentaEmail" placeholder="Correo" required>
+          <label for="cuentaColor">Color favorito:</label>
+          <select id="cuentaColor">
+            <option value="#e35336">Terracota</option>
+            <option value="#ffe0eb">Rosa claro</option>
+            <option value="#fff7ae">Amarillo</option>
+            <option value="#f5f5f5">Gris claro</option>
+            <option value="#aeefff">Azul claro</option>
+          </select>
+          <button type="submit">Guardar cambios</button>
+        </form>
+        <p id="mensajeCuenta" style="color: green;"></p>
+      </section>
+      <!-- Añadir cuenta -->
+      <section id="añadirCuenta" class="hidden"> 
+        <h2>➕ Añadir cuenta</h2>
+        <form class="formulario" id="formAñadirCuenta" autocomplete="on">
+          <input type="email" id="nuevoEmail" placeholder="Correo electrónico" required>
+          <input type="password" id="nuevoPass" placeholder="Contraseña" required>
+          <button type="submit">Crear cuenta</button>
+        </form>
+        <p id="mensajeAñadirCuenta" style="color: rgb(0, 223, 0);"></p>
+      </section>
+      <!-- Carrito -->
+      <section id="carrito" class="hidden">
+        <h2>🛒 Tu carrito</h2>
+        <p id="contenidoCarrito">No hay productos en el carrito.</p>
+        <div id="carritoMensajeError"></div>
+        <!-- Botón Pagar y métodos de pago -->
+        <button id="btnPagarCarrito" style="display:none;margin-top:20px;background:#e35336;color:white;font-weight:bold;padding:12px 28px;border:none;border-radius:12px;cursor:pointer;font-size:1.09em;">Pagar</button>
+        <div id="metodosPagoCarrito" style="display:none;margin:16px 0;">
+          <h3>Métodos de pago</h3>
+          <button onclick="mostrarPago('Nequi')" style="background:#e35336;color:white;border:none;padding:10px 30px;border-radius:8px;margin:10px;cursor:pointer;">Nequi (QR)</button>
+          <button onclick="mostrarPago('Bancolombia')" style="background:#f6bdb8;color:#e35336;border:none;padding:10px 30px;border-radius:8px;margin:10px;cursor:pointer;">Bancolombia (Wompi)</button>
+        </div>
+        <div id="qrNequiPago" style="display:none; text-align:center; margin:20px 0;">
+          <h3>Escanea este QR con tu app Nequi</h3>
+          <img src="banco.jpeg" alt="QR Nequi" style=
+          "width:600px;max-width:100%;border:2px solid #e35336;border-radius:22px;"><br>
+          <p style="margin:10px 0;">Después de pagar, haz clic en "Confirmar pago".</p>
+          <button id="btnConfirmarPagoQR" style="background:#e35336;color:white;border:none;padding:10px 30px;border-radius:8px;cursor:pointer;margin-bottom:15px;">Confirmar pago</button>
+        </div>
+        <div id="pasarelaWompi" style="display:none; text-align:center; margin:20px 0;">
+          <h3>Pagar con Wompi (Nequi, Bancolombia, PSE, tarjeta)</h3>
+          <button id="btnPayWompi" style="background:#21c193;color:white;border:none;padding:10px 30px;border-radius:8px;cursor:pointer;font-size:1.1em;font-weight:bold;">
+            Pagar con Wompi
+          </button>
+        </div>
+        <div id="mensajePagoCarrito" style="margin-top:20px;color:green;font-weight:bold;"></div>
+      </section>
+      <section id="pedidos" class="hidden">
+        <h2>📦 Tus pedidos</h2>
+        <p id="contenidoPedidos">No se encuentra ningún pedido registrado.</p>
+      </section>
+      <!-- Formas de pago -->
+      <section id="formasPago" class="hidden">
+        <h2>💳 Formas de pago</h2>
+        <div class="confianza-lista">
+          <div class="confianza-item">
+            <img src="nequi.png" alt="Pago Nequi">
+            <span>Nequi</span>
+          </div>
+          <div class="confianza-item">
+            <img src="bancolombia.png" alt="Pago Bancolombia">
+            <span>Bancolombia</span>
+          </div>
+        </div>
+      </section>
+      <!-- Personalizar pedido -->
+      <section id="formularioPedido" class="hidden">
+        <h2>📝 Personaliza tu envio </h2>
+        <form class="formulario" id="pedidoForm" autocomplete="on">
+          <label for="direccion" class="visually-hidden">Dirección</label>
+          <input type="text" id="direccion" placeholder="Dirección de tu casa" required>
+          <input type="text" id="departamento" placeholder="Departamento" required>
+          <input type="text" id="municipio" placeholder="Municipio" required>
+          <input type="text" id="pais" placeholder="País" required>
+          <textarea id="detalles" placeholder="Detalles del pedido..." required></textarea>
+          <button type="submit">Enviar pedido</button>
+        </form>
+        <p id="mensajePedido" style="color: green;"></p>
+      </section>
+      <!-- Galería -->
+      <section id="galeria" class="hidden">
+        <h2>🖼 Galería de productos</h2>
+        <div class="galeria-productos">
+          <div class="galeria-item">
+            <img src="Popsocket.jpg" alt="Popsocket personalizado">
+            <div class="nombre">Popsocket</div>
+          </div>
+          <div class="galeria-item">
+            <img src="Camiseta.jpg" alt="Camiseta personalizada">
+            <div class="nombre">Camiseta</div>
+          </div>
+          <div class="galeria-item">
+            <img src="Mug Personalizados.jpg" alt="Mug personalizado">
+            <div class="nombre">Mug</div>
+          </div>
+          <div class="galeria-item">
+            <img src="MINI TOTE BAG.jpg" alt="Mini Tote Bag personalizada">
+            <div class="nombre">Mini Tote Bag</div>
+          </div>
+          <div class="galeria-item">
+            <img src="mouse pad.jpg" alt="Mouse Pad personalizado">
+            <div class="nombre">Mouse Pad</div>
+          </div>
+        </div>
+      </section>
+      <!-- Personaliza tu pedido-->
+      <section id="personaliza tu pedido" class="hidden">
+        <h2>🖌️ Personaliza tu pedido</h2>
+  
+        <div class="producto">
+          <img src="Popsocket.jpg" alt="Popsocket personalizado">
+          <h4>🌀 Popsocket</h4>
+          <div class="precio">$5.000</div>
+          <div class="personaliza-overlay">
+            <button class="btn-personalizar" data-nombre="Popsocket" data-precio="5000">✨ Personaliza la tuya</button>
+          </div>
+        </div>
+        <div class="producto">
+          <img src="Camiseta.jpg" alt="Camiseta personalizada">
+          <h4>👕 Camiseta</h4>
+          <div class="precio">$20.000 - $30.000</div>
+          <label for="camiseta-talla-personaliza" style="display:block;margin:6px 0 2px 0;">Talla:</label>
+          <select id="camiseta-talla-personaliza" style="margin-bottom:7px;">
+            <option value="S">S</option>
+            <option value="M">M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+          </select>
+          <div class="personaliza-overlay">
+            <button class="btn-personalizar" data-nombre="Camiseta" data-precio="20000">✨ Personaliza la tuya</button>
+          </div>
+        </div>
+        <div class="producto">
+          <img src="Mug Personalizados.jpg" alt="Mug personalizado">
+          <h4>☕ Mug</h4>
+          <div class="precio">$15.000</div>
+          <div class="personaliza-overlay">
+            <button class="btn-personalizar" data-nombre="Mug" data-precio="15000">✨ Personaliza la tuya</button>
+          </div>
+        </div>
+       <div class="producto">
+          <img src="MINI TOTE BAG.jpg" alt="Mini Tote Bag personalizada">
+          <h4>👜 Mini Tote Bag</h4>
+          <div class="precio">Pequeña – $5.000<br>Mediana – $6.000<br>Grande – $8.000</div>
+          <label fo r="tote-size-personaliza" style="display:block;margin:6px 0 2px 0;">Tamaño:</label>
+          <select id="tote-size-personaliza" style="margin-bottom:7px;">
+            <option value="Pequeña" data-precio="5000">Pequeña</option>
+            <option value="Mediana" data-precio="6000">Mediana</option>
+            <option value="Grande" data-precio="8000">Grande</option>
+          </select>
+          <div class="personaliza-overlay">
+            <button class="btn-personalizar" data-nombre="Mini Tote Bag" data-precio="5000">✨ Personaliza la tuya</button>
+          </div>
+        </div>
+        <div class="producto">
+          <img src="mouse pad.jpg" alt="Mouse Pad personalizado">
+          <h4>🖱 Mouse Pad</h4>
+          <div class="precio">$10.000</div>
+          <div class="personaliza-overlay">
+            <button class="btn-personalizar" data-nombre="Mouse Pad" data-precio="10000">✨ Personaliza la tuya</button>
+          </div>
+        </div>
+        <!-- Modal Personalización -->
+        <div id="modalPersonaliza" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.6); z-index:9999; align-items:center; justify-content:center;">
+          <div style="background:#fff;padding:24px;border-radius:14px;max-width:360px;width:90vw;margin:auto;position:relative;">
+            <button onclick="cerrarModalPersonaliza()" style="position:absolute;top:8px;right:8px;">✖</button>
+            <h3 id="nombreProductoPersonaliza"></h3>
+            <form id="formPersonaliza">
+              <input type="file" id="inputImagenPersonaliza" accept="image/*" required><br>
+              <textarea id="detallePersonaliza" placeholder="Detalles de tu personalización..." style="width:100%;margin:10px 0;"></textarea>
+              <button type="submit" style="background:#e35336;color:white;padding:8px 24px;border:none;border-radius:8px;">Agregar al carrito</button>
+            </form>
+            <p id="msgPersonaliza" style="color:green;"></p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <footer>
+    <div class="footer-social">
+      <a href="https://wa.me/573001234567" target="_blank" title="WhatsApp"><img src="whatsapp.jpg" alt="WhatsApp" style="width:32px;vertical-align:middle;"></a>
+      <a href="https://instagram.com/" target="_blank" title="Instagram"><img src="insta.jpg" alt="Instagram" style="width:32px;vertical-align:middle;"></a>
+      <a href="mailto:info@caramelito.com" title="Correo"><img src="email.png" alt="Email" style="width:32px;vertical-align:middle;"></a>
+    </div>
+    <div class="footer-links">
+      <a href="#" onclick="mostrar('about');return false;">Sobre nosotros</a>
+      <a href="#" onclick="mostrar('formasPago');return false;">Pagos</a>
+      <a href="#">Política de privacidad</a>
+      <a href="#">Términos y condiciones</a>
+    </div>
+    <div class="footer-directorio">
+      📞 3207514140 &nbsp;&nbsp;&nbsp; <br>
+      📸 IG: <a href="https://instagram.com/caramelito_estampados" target="_blank" style="color: #fff; text-decoration: underline;">@caramelito_estampados</a>
+    </div>
+    <div class="footer-copy">
+      &copy; 2025 Caramelito. Todos los derechos reservados.
+    </div>
+  </footer>
+  <!-- Script  -->
+  <script>
+    // Buscador de productos
+    document.getElementById('buscador')?.addEventListener('input', function () {
+      const texto = this.value.toLowerCase();
+      let encontrados = 0;
+      document.querySelectorAll('.contenedor-productos .producto').forEach(producto => {
+        const nombre = producto.dataset.nombre.toLowerCase();
+        if (nombre.includes(texto)) { 
+          producto.style.display = '';
+          encontrados++;
+        } else {
+          producto.style.display = 'none';
+        }
+      });
+      document.getElementById('mensaje-vacio').style.display = encontrados === 0 ? 'block' : 'none';
+    });
+
+    // --- Pantalla Login ---
+    let usuariosGuardados = JSON.parse(localStorage.getItem("usuariosCaramelito")) || {};
+    let modoRegistro = false;
+    function cambiarModo(registro) {
+      modoRegistro = registro;
+      document.getElementById("tituloLogin").textContent = registro ? "Crear Cuenta" : "Iniciar Sesión";
+      document.getElementById("botonLogin").textContent = registro ? "Registrarse" : "Entrar";
+      document.getElementById("mensajeLogin").textContent = "";
+    }
+    document.getElementById('formLogin').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const email = document.getElementById("loginEmail").value.trim();
+      const pass = document.getElementById("loginPass").value.trim();
+      const mensaje = document.getElementById("mensajeLogin");
+      if (!email || !pass) {
+        mensaje.textContent = "Completa todos los campos.";
+        return;
+      }
+      if (modoRegistro) {
+        if (usuariosGuardados[email]) {
+          mensaje.textContent = "Ese correo ya está registrado.";
+        } else {
+          usuariosGuardados[email] = pass;
+          localStorage.setItem("usuariosCaramelito", JSON.stringify(usuariosGuardados));
+          mensaje.textContent = "¡Cuenta creada con éxito!";
+          setTimeout(() => cambiarModo(false), 1000);
+        }
+      } else {
+        if (usuariosGuardados[email] === pass) {
+          localStorage.setItem("usuarioActivo", email);
+          document.getElementById("pantallaLogin").classList.add("oculto");
+          document.body.classList.remove("bloqueado");
+          actualizarCuentasLista();
+        } else {
+          mensaje.textContent = "Correo o contraseña incorrectos.";
+        }
+      }
+    });
+    function mostrar(id) {
+      const secciones = document.querySelectorAll('main section');
+      secciones.forEach(sec => sec.classList.add('hidden'));
+      const activa = document.getElementById(id);
+      if (activa) activa.classList.remove('hidden');
+      if(id === 'personalizarCuenta') {
+        let cuenta = JSON.parse(localStorage.getItem("datosCuenta")||"{}");
+        document.getElementById("cuentaNombre").value = cuenta.nombre||'';
+        document.getElementById("cuentaEmail").value = cuenta.email||localStorage.getItem("usuarioActivo")||'';
+        document.getElementById("cuentaColor").value = cuenta.color||'#ff6f91';
+        actualizarCuentasLista();
+      }
+      document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+      if(id === 'productosPrincipales') document.querySelector('.nav-links a:nth-child(1)').classList.add('active');
+      if(id === 'catalogo') document.querySelector('.nav-links a:nth-child(2)').classList.add('active');
+      if(id === 'about') document.querySelector('.nav-links a:nth-child(3)').classList.add('active');
+      if(id === 'personalizarCuenta') document.querySelector('.nav-links a:nth-child(4)').classList.add('active');
+      if(id === 'formasPago') document.querySelector('.nav-links a:nth-child(5)').classList.add('active');
+    }
+    function actualizarCuentasLista() {
+      let cuentasLista = document.getElementById('cuentasLista');
+      let usuarioActivo = localStorage.getItem("usuarioActivo");
+      let cuentas = Object.keys(usuariosGuardados);
+      cuentasLista.innerHTML = cuentas.length
+        ? 'Cuentas:&nbsp;' + cuentas.map(email =>
+          `<span ${usuarioActivo===email?'class="seleccionada"':''} onclick="cambiarCuenta('${email}')">${email}</span>`
+        ).join('')
+        : 'Sin cuentas registradas.';
+    }
+    function cambiarCuenta(email) {
+      if (usuariosGuardados[email]) {
+        localStorage.setItem("usuarioActivo", email);
+        mostrar('personalizarCuenta');
+      }
+    }
+    function cerrarSesion() {
+      localStorage.removeItem("usuarioActivo");
+      document.getElementById("pantallaLogin").classList.remove("oculto");
+      mostrar('productosPrincipales');
+    }
+    document.getElementById('formCuenta')?.addEventListener('submit', function(e){
+      e.preventDefault();
+      const nombre = document.getElementById('cuentaNombre').value.trim();
+      const email = document.getElementById('cuentaEmail').value.trim();
+      const color = document.getElementById('cuentaColor').value;
+      const mensajeCuenta = document.getElementById('mensajeCuenta');
+      if(!nombre || !email){
+        mensajeCuenta.textContent = "Completa todos los campos.";
+        mensajeCuenta.style.color = "red";
+        return;
+      }
+      localStorage.setItem("datosCuenta", JSON.stringify({nombre,email,color}));
+      mensajeCuenta.textContent = "¡Cambios guardados!";
+      mensajeCuenta.style.color = "green";
+      setTimeout(() => { mensajeCuenta.textContent = ""; }, 3000);
+      document.body.style.background = color === "#ffe0eb" ? 
+        "linear-gradient(120deg, #ffe0eb 0%, #fff7ae 100%)" :
+        color === "#fff7ae" ? "linear-gradient(120deg, #fff7ae 0%, #ff6f91 100%)" :
+        color === "#aeefff" ? "linear-gradient(120deg, #aeefff 0%, #fff7ae 100%)" :
+        color === "#f5f5f5" ? "linear-gradient(120deg, #f5f5f5 0%, #ff6f91 100%)" :
+        "linear-gradient(120deg, #ff6f91 0%, #fff7ae 100%)";
+    });
+    document.getElementById('formAñadirCuenta')?.addEventListener('submit', function(e){
+      e.preventDefault();
+      const email = document.getElementById("nuevoEmail").value.trim();
+      const pass = document.getElementById("nuevoPass").value.trim();
+      const mensaje = document.getElementById("mensajeAñadirCuenta");
+      if (!email || !pass) {
+        mensaje.textContent = "Completa todos los campos.";
+        mensaje.style.color = "red";
+        return;
+      }
+      if (usuariosGuardados[email]) {
+        mensaje.textContent = "Ese correo ya está registrado.";
+        mensaje.style.color = "red";
+      } else {
+        usuariosGuardados[email] = pass;
+        localStorage.setItem("usuariosCaramelito", JSON.stringify(usuariosGuardados));
+        mensaje.textContent = "¡Cuenta añadida con éxito!";
+        mensaje.style.color = "green";
+        setTimeout(() => { mensaje.textContent = ""; mostrar('personalizarCuenta'); actualizarCuentasLista(); }, 1200);
+      }
+      this.reset();
+    });
+    document.getElementById('pedidoForm')?.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const direccion = document.getElementById('direccion').value.trim();
+      const departamento = document.getElementById('departamento').value.trim();
+      const municipio = document.getElementById('municipio').value.trim();
+      const pais = document.getElementById('pais').value.trim();
+      const detalles = document.getElementById('detalles').value.trim();
+      const mensajePedido = document.getElementById('mensajePedido');
+      if (!direccion || !departamento || !municipio || !pais || !detalles) {
+        mensajePedido.textContent = "Por favor, completa todos los campos.";
+        mensajePedido.style.color = "red";
+        return;
+      }
+      // Enviar a WhatsApp
+      const mensaje =
+        `¡Hola! Quiero personalizar un pedido:%0A` +
+        `Dirección: ${direccion}%0A` +
+        `Departamento: ${departamento}%0A` +
+        `Municipio: ${municipio}%0A` +
+        `País: ${pais}%0A` +
+        `Detalles: ${detalles}`;
+      const numero = "573207514140";
+      const enlace = `https://wa.me/${numero}?text=${mensaje}`;
+      window.open(enlace, "_blank");
+      mensajePedido.textContent = "Redirigiendo a WhatsApp...";
+      mensajePedido.style.color = "green";
+      this.reset();
+      setTimeout(() => { mensajePedido.textContent = ""; }, 3000);
+    });
+    if(localStorage.getItem("usuarioActivo")) actualizarCuentasLista();
+    mostrar('productosPrincipales');
+    // --- SISTEMA DE CARRITO DE COMPRAS ---
+    function obtenerCarrito() {
+      return JSON.parse(localStorage.getItem("caramelitoCarrito") || "[]");
+    }
+    function guardarCarrito(carrito) {
+      localStorage.setItem("caramelitoCarrito", JSON.stringify(carrito));
+    }
+    function agregarAlCarrito(nombre, precio) {
+      const mensajeError = document.getElementById("carritoMensajeError");
+      if (
+        !nombre ||
+        typeof nombre !== "string" ||
+        nombre.trim() === "" ||
+        nombre === "null" ||
+        isNaN(precio) ||
+        precio <= 0
+      ) {
+        if (mensajeError) {
+          mensajeError.textContent = "¡Error al agregar producto! Verifica el nombre y precio.";
+          mensajeError.style.color = "#e35336";
+          mensajeError.style.margin = "10px 0 10px 0";
+          mensajeError.style.fontWeight = "bold";
+        }
+        return;
+      }
+      if (mensajeError) mensajeError.textContent = "";
+      let carrito = obtenerCarrito();
+      let existente = carrito.find(p => p.nombre === nombre);
+      if (existente) {
+        existente.cantidad++;
+      } else {
+        carrito.push({ nombre, precio, cantidad: 1 });
+      }
+      guardarCarrito(carrito);
+      actualizarCarritoUI();
+    }
+    function quitarDelCarrito(nombre) {
+      let carrito = obtenerCarrito();
+      carrito = carrito.filter(p => p.nombre !== nombre);
+      guardarCarrito(carrito);
+      actualizarCarritoUI();  
+    }
+    function actualizarCarritoUI() {
+      const contenido = document.getElementById("contenidoCarrito");
+      let carrito = obtenerCarrito();
+      let btnPagar = document.getElementById("btnPagarCarrito");
+      if (!contenido) return;
+      if (carrito.length === 0) {
+        contenido.innerHTML = "No hay productos en el carrito.";
+        if(btnPagar) btnPagar.style.display = "none";
+        document.getElementById("metodosPagoCarrito").style.display = "none";
+        document.getElementById("qrNequiPago").style.display = "none";
+        document.getElementById("pasarelaWompi").style.display = "none";
+        document.getElementById("mensajePagoCarrito").textContent = "";
+        return;
+      }
+      contenido.innerHTML = carrito.map(prod => `
+        <div style="margin-bottom:8px;">
+          <b>${prod.nombre}</b> x${prod.cantidad} – $${(prod.precio*prod.cantidad).toLocaleString()}
+          ${prod.personalizado ? `<br><img src="${prod.imagen}" alt="Personalización" style="max-width:80px;max-height:80px;border-radius:8px;margin-top:5px;">
+          <br><i>${prod.detalles}</i>` : ''}
+          <button class="boton-quitar-carrito" data-nombre="${encodeURIComponent(prod.nombre)}" style="margin-left:10px;color:#e35336;">Quitar</button>
+        </div>
+      `).join("");
+      if(btnPagar) btnPagar.style.display = "block";
+      document.getElementById("metodosPagoCarrito").style.display = "none";
+      document.getElementById("qrNequiPago").style.display = "none";
+      document.getElementById("pasarelaWompi").style.display = "none";
+      document.getElementById("mensajePagoCarrito").textContent = "";
+      document.querySelectorAll('.boton-quitar-carrito').forEach(boton => {
+        boton.onclick = function() {
+          quitarDelCarrito(decodeURIComponent(this.dataset.nombre));
+        }
+      });
+    }
+    // --- BOTÓN PAGAR Y PROCESAR PEDIDO ---
+    document.getElementById('btnPagarCarrito').onclick = function() {
+      document.getElementById("metodosPagoCarrito").style.display = "block";
+      document.getElementById("mensajePagoCarrito").textContent = "";
+    }
+    // Nuevo: mostrar QR o pasarela
+    function mostrarPago(metodo) {
+      if(metodo === 'Nequi') {
+        document.getElementById("qrNequiPago").style.display = "block";
+        document.getElementById("pasarelaWompi").style.display = "none";
+      } else if(metodo === 'Bancolombia') {
+        document.getElementById("pasarelaWompi").style.display = "block";
+        document.getElementById("qrNequiPago").style.display = "none";
+      }
+    }
+    // Confirmar pago QR
+    document.getElementById('btnConfirmarPagoQR').onclick = function() {
+      procesarPago('Nequi');
+      document.getElementById("qrNequiPago").style.display = "none";
+    };
+    // Pagar con Wompi
+    document.getElementById('btnPayWompi').onclick = function() {
+      procesarPago('Bancolombia');
+      document.getElementById("pasarelaWompi").style.display = "none";
+    };
+    function procesarPago(metodo) {
+      let carrito = obtenerCarrito();
+      if (!carrito.length) return;
+      let pedidos = JSON.parse(localStorage.getItem("caramelitoPedidos") || "[]");
+      const fecha = new Date();
+      pedidos.push({
+        productos: carrito,
+        metodo: metodo,
+        fecha: fecha.toLocaleString()
+      });
+      localStorage.setItem("caramelitoPedidos", JSON.stringify(pedidos));
+      guardarCarrito([]);
+      actualizarCarritoUI();
+      document.getElementById("metodosPagoCarrito").style.display = "none";
+      document.getElementById("mensajePagoCarrito").textContent = `¡Pago exitoso con ${metodo}! Tu pedido fue registrado.`;
+      actualizarPedidosUI();
+    }
+    function actualizarPedidosUI() {
+      const cont = document.getElementById("contenidoPedidos");
+      let pedidos = JSON.parse(localStorage.getItem("caramelitoPedidos") || "[]");
+      if (!cont) return;
+      if (pedidos.length === 0) {
+        cont.textContent = "No se encuentra ningún pedido registrado.";
+        return;
+      }
+      cont.innerHTML = pedidos.map(ped =>
+        `<div style="margin-bottom:20px;border-bottom:1px solid #f38c81;padding-bottom:10px;">
+          <b>Fecha:</b> ${ped.fecha}<br>
+          <b>Método:</b> ${ped.metodo}<br>
+          <b>Productos:</b><br>
+          ${ped.productos.map(pr => `- ${pr.nombre} x${pr.cantidad} ($${(pr.precio*pr.cantidad).toLocaleString()})${pr.personalizado ? `<br><img src="${pr.imagen}" alt="Personalización" style="max-width:80px;max-height:80px;border-radius:8px;margin:4px 0 2px 0;"><br><i>${pr.detalles}</i>` : ''}`).join('<br>')}
+        </div>`
+      ).join("");
+    }
+    // --- Eventos para los botones de carrito ---
+    function asignarEventosCarrito() {
+      document.querySelectorAll('.boton-terracota').forEach(boton => {
+        if (!boton.dataset.carritoReady) {
+          boton.addEventListener('click', function() {
+            const nombre = this.getAttribute('data-nombre');
+            const precio = parseInt(this.getAttribute('data-precio'), 10);
+            agregarAlCarrito(nombre, precio);
+          });
+          boton.dataset.carritoReady = "true";
+        }
+      });
+    }
+    asignarEventosCarrito();
+    const mostrarOriginal = window.mostrar || function() {};
+    window.mostrar = function(id) {
+      mostrarOriginal(id);
+      if (id === 'carrito') actualizarCarritoUI();
+      if (id === 'pedidos') actualizarPedidosUI();
+      asignarEventosCarrito();
+    }
+    // --- FIN SISTEMA DE CARRITO ---
+    // --- Personaliza tu pedido (modal) ---
+    document.querySelectorAll('.btn-personalizar').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        document.getElementById('modalPersonaliza').style.display = 'flex';
+        document.getElementById('nombreProductoPersonaliza').innerText = this.dataset.nombre;
+        document.getElementById('formPersonaliza').dataset.nombre = this.dataset.nombre;
+        document.getElementById('formPersonaliza').dataset.precio = this.dataset.precio;
+        document.getElementById('msgPersonaliza').textContent = "";
+        document.getElementById('inputImagenPersonaliza').value = '';
+        document.getElementById('detallePersonaliza').value = '';
+      });
+    });
+    function cerrarModalPersonaliza() {
+      document.getElementById('modalPersonaliza').style.display = 'none';
+    }
+    document.querySelectorAll('.producto').forEach(prod => {
+      prod.addEventListener('touchstart', function(e) {
+        document.querySelectorAll('.personaliza-overlay').forEach(ov => ov.style.opacity = 0);
+        const overlay = this.querySelector('.personaliza-overlay');
+        if (overlay) overlay.style.opacity = 1;
+        setTimeout(() => { overlay.style.opacity = 0; }, 3000);
+        e.stopPropagation();
+      });
+    });
+    document.getElementById('formPersonaliza').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const nombre = this.dataset.nombre;
+      const precio = parseInt(this.dataset.precio, 10);
+      const detalles = document.getElementById('detallePersonaliza').value.trim();
+      const imagenInput = document.getElementById('inputImagenPersonaliza');
+      const mensaje = document.getElementById('msgPersonaliza');
+      if (!imagenInput.files[0]) {
+        mensaje.textContent = "Por favor, sube una imagen.";
+        mensaje.style.color = "red";
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        const imagenBase64 = evt.target.result;
+        agregarAlCarritoPersonalizado(nombre, precio, detalles, imagenBase64);
+        cerrarModalPersonaliza();
+        mensaje.textContent = "";
+      };
+      reader.readAsDataURL(imagenInput.files[0]);
+    });
+    function agregarAlCarritoPersonalizado(nombre, precio, detalles, imagenBase64) {
+      let carrito = obtenerCarrito();
+      carrito.push({
+        nombre,
+        precio,
+        cantidad: 1,
+        personalizado: true,
+        detalles,
+        imagen: imagenBase64
+      });
+      guardarCarrito(carrito);
+      actualizarCarritoUI();
+    }
+  </script>
+</body>
+</html>
